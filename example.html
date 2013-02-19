@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>efyea.js example</title>
+  </head>
+  <body>
+    <p id="exampleText">Click the button to change my text</p>
+    <button id="exampleButton">Click Me</button>
+    <script src="efyea.js"></script>
+    <script src="ext/modules.js"></script>
+    <script src="ext/pubsub.js"></script>
+    <script src="sandbox/sandbox.js"></script>
+    <script>
+      // typically, you don't want to access the document in your modules,
+      // but for purposes of an example...here you go
+      ef.register("module1", function(sandbox) {
+        var publ = {},
+          priv = {};
+
+        publ.init = function () {
+          document.getElementById('exampleButton').onclick = function (e) {
+            sandbox.publish('clicked');
+          };
+        };
+
+        return publ;
+      })
+
+      ef.register("module2", function(sandbox) {
+        var publ = {},
+          priv = {};
+
+        publ.init = function () {
+          sandbox.subscribe('clicked', function() {
+            document.getElementById('exampleText').innerHTML = "Clicked!";
+          });
+        };
+
+        return publ;
+      })
+
+      ef.startAll();
+    </script>
+  </body>
+</html>
