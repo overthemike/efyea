@@ -30,7 +30,10 @@
   }
 
   ef.sandbox.prototype.engage = function(action) {
-    this.actions[action]();
+    var callback = this.actions[action];
+    if (callback && typeof callback === 'function') {
+      callback();
+    }
   };
 
   ef.sandbox.prototype.waitforit = function(action, callback) {
