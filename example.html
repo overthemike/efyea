@@ -6,40 +6,45 @@
   <body>
     <p id="exampleText">Click the button to change my text</p>
     <button id="exampleButton">Click Me</button>
+    <script src="lib/jquery-1.9.1.min.js"></script>
+    <script src="lib/mustache.js"></script>
     <script src="efyea.js"></script>
-    <script src="ext/modules.js"></script>
-    <script src="ext/pubsub.js"></script>
+    <script src="ext/core/modules.js"></script>
+    <script src="ext/core/pubsub.js"></script>
+    <script src="ext/mustache/templates.js"></script>
     <script src="sandbox/sandbox.js"></script>
     <script>
-      // typically, you don't want to access the document in your modules,
-      // but for purposes of an example...here you go
-      ef.register("module1", function(sandbox) {
-        var publ = {},
-          priv = {};
+      (function(core){
+        // typically, you don't want to access the document in your modules,
+        // but for purposes of an example...here you go
+        core.register("module1", function(sandbox) {
+          var publ = {},
+            priv = {};
 
-        publ.init = function () {
-          document.getElementById('exampleButton').onclick = function (e) {
-            sandbox.publish('clicked');
+          publ.init = function () {
+            document.getElementById('exampleButton').onclick = function (e) {
+              sandbox.publish('clicked');
+            };
           };
-        };
 
-        return publ;
-      })
+          return publ;
+        })
 
-      ef.register("module2", function(sandbox) {
-        var publ = {},
-          priv = {};
+        core.register("module2", function(sandbox) {
+          var publ = {},
+            priv = {};
 
-        publ.init = function () {
-          sandbox.subscribe('clicked', function() {
-            document.getElementById('exampleText').innerHTML = "Clicked!";
-          });
-        };
+          publ.init = function () {
+            sandbox.subscribe('clicked', function() {
+              document.getElementById('exampleText').innerHTML = "Clicked!";
+            });
+          };
 
-        return publ;
-      })
+          return publ;
+        })
 
-      ef.startAll();
+        core.startAll();
+      }(ef.extensions.core));
     </script>
   </body>
 </html>

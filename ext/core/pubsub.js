@@ -1,7 +1,8 @@
 (function(ef, undef){
   'use strict';
-  ef.extend('pubsub', function (publ, priv) {
-    var cache = {};
+  ef.extend('core', function () {
+    var cache = {},
+      ext = this;
 
     /**
      * Publishes an event to whoever's listening
@@ -21,7 +22,7 @@
      *   is to be published when the app loads and a sandbox.publish call is
      *   made before a subscriber has a chance to subscribe to it.
      */
-    publ.publish = function (topic, options) {
+    ext.publish = function (topic, options) {
       var opts = options || {},
         args = opts.args || [],
         scope = opts.scope || this,
@@ -58,7 +59,7 @@
      * @param {function} callback The callback method to store for later use
      * @return {array} The event handler
      */
-    publ.subscribe = function (topic, callback) {
+    ext.subscribe = function (topic, callback) {
       if (!cache[topic]) {
         cache[topic] = [];
       }
@@ -77,13 +78,13 @@
      * @param {string} topic The name of the event
      * @param {function} callback The callback for the event
      */
-    publ.subscribeOnce = function (topic, callback) {
+    ext.subscribeOnce = function (topic, callback) {
       var fireAndForget = function (handle, args, scope) {
         callback.apply(scope, args);
-        publ.unsubscribe(handle);
+        ext.unsubscribe(handle);
       },
           
-      handle = publ.subscribe(topic, function () {
+      handle = ext.subscribe(topic, function () {
         fireAndForget(handle, arguments, this);
       });
     };
@@ -98,7 +99,7 @@
      *
      * @param {array} handle The event handler
      */
-    publ.unsubscribe = function (handle) {
+    ext.unsubscribe = function (handle) {
       var t = handle[0],
         i = cache[t].length - 1;
 
@@ -111,6 +112,6 @@
       }
     };
 
-    return publ;
+    return ext;
   });
 }(ef));

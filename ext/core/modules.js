@@ -1,18 +1,19 @@
 (function(ef, undef){
   'use strict';
-  ef.extend('modules', function (publ, priv) {
-    var modules = {};
+  ef.extend('core', function () {
+    var modules = {},
+      ext = this;
 
-    publ.register = function (moduleName, creator) {
+    ext.register = function (moduleName, creator) {
       modules[moduleName] = {
         create: creator,
         instance: null
       };
 
-      return publ; // chainable
+      return ext; // chainable
     };
 
-    publ.start = function (moduleName) {
+    ext.start = function (moduleName) {
       var module = modules[moduleName];
 
       if (module && typeof module.create === 'function') {
@@ -22,10 +23,10 @@
         }
       }
 
-      return publ; // chainable
+      return ext; // chainable
     };
 
-    publ.stop = function (moduleName) {
+    ext.stop = function (moduleName) {
       var module = modules[moduleName];
 
       if (module && module.instance) {
@@ -35,25 +36,25 @@
         module.instance = null;
       }
 
-      return publ; // chainable
+      return ext; // chainable
     };
 
-    publ.startAll = function () {
+    ext.startAll = function () {
       for (var moduleName in modules) {
-        publ.start(moduleName);
+        ext.start(moduleName);
       }
 
-      return publ; // chainable
+      return ext; // chainable
     };
 
-    publ.stopAll = function () {
+    ext.stopAll = function () {
       for (var moduleName in modules) {
-        publ.stop(moduleName);
+        ext.stop(moduleName);
       }
       
-      return publ; // chainable
+      return ext; // chainable
     };
 
-    return publ;
+    return ext;
   });
 }(ef));
