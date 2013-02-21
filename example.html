@@ -4,8 +4,6 @@
     <title>efyea.js example</title>
   </head>
   <body>
-    <p id="exampleText">Click the button to change my text</p>
-    <button id="exampleButton">Click Me</button>
     <script src="lib/jquery-1.9.1.min.js"></script>
     <script src="lib/mustache.js"></script>
     <script src="efyea.js"></script>
@@ -15,35 +13,21 @@
     <script src="sandbox/sandbox.js"></script>
     <script>
       (function(core){
-        // typically, you don't want to access the document in your modules,
-        // but for purposes of an example...here you go
         core.register("module1", function(sandbox) {
-          var publ = {},
-            priv = {};
-
-          publ.init = function () {
-            document.getElementById('exampleButton').onclick = function (e) {
-              sandbox.publish('clicked');
-            };
-          };
-
-          return publ;
-        })
-
-        core.register("module2", function(sandbox) {
-          var publ = {},
-            priv = {};
-
-          publ.init = function () {
-            sandbox.subscribe('clicked', function() {
-              document.getElementById('exampleText').innerHTML = "Clicked!";
-            });
-          };
-
-          return publ;
-        })
-
-        core.startAll();
+          sandbox.waitforit('init', function () {
+            console.log("module1 init");
+          });
+          sandbox.waitforit('destroy', function(){
+            console.log("module1 destroy");
+          });
+        }).register("module2", function(sandbox) {
+          sandbox.waitforit('init', function () {
+            console.log("module2 init");
+          });
+          sandbox.waitforit('destroy', function(){
+            console.log("module2 destroy");
+          });
+        }).startAll().stopAll();
       }(ef.extensions.core));
     </script>
   </body>

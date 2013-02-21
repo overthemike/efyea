@@ -21,7 +21,6 @@
           publ.extensions[name][method] = extension[method];
         }
       }
-
       
       return publ;
     };

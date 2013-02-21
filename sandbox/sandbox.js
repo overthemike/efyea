@@ -10,15 +10,18 @@
  * sandbox is correct when creating a module.
  */
 (function(ef){
-  var method, methods = {
-    'core.publish' : 'publish',
-    'core.subscribe' : 'subscribe',
-    'core.unsubscribe' : 'unsubscribe',
-    'core.subscribeOnce' : 'subscribeOnce',
-    'mustache.test' : 'test'
-  };
+  var method,
+    methods = {
+      'core.publish' : 'publish',
+      'core.subscribe' : 'subscribe',
+      'core.unsubscribe' : 'unsubscribe',
+      'core.subscribeOnce' : 'subscribeOnce',
+      'mustache.test' : 'test'
+    };
 
-  ef.sandbox = function (){};
+  ef.sandbox = function(){
+    this.actions = {};
+  };
 
   // Map the extension methods to a method name to be used by a sandbox. 
   for (method in methods) {
@@ -26,4 +29,11 @@
     ef.sandbox.prototype[facade] = ef.extensions[method.split('.')[0]][method.split('.')[1]];
   }
 
+  ef.sandbox.prototype.engage = function(action) {
+    this.actions[action]();
+  };
+
+  ef.sandbox.prototype.waitforit = function(action, callback) {
+    this.actions[action] = callback;
+  };
 }(ef));
