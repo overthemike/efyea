@@ -10,23 +10,21 @@
  * sandbox is correct when creating a module.
  */
 (function(ef){
-  var method,
+  var facade,
     methods = {
-      'core.publish' : 'publish',
-      'core.subscribe' : 'subscribe',
-      'core.unsubscribe' : 'unsubscribe',
-      'core.subscribeOnce' : 'subscribeOnce',
-      'mustache.test' : 'test'
+      'publish'       : 'core/publish',
+      'subscribe'     : 'core/subscribe',
+      'unsubscribe'   : 'core/unsubscribe',
+      'subscribeOnce' : 'core/subscribeOnce'
     };
 
   ef.sandbox = function(){
-    this.actions = {};
+    this.actions = {};  
   };
 
   // Map the extension methods to a method name to be used by a sandbox. 
-  for (method in methods) {
-    facade = methods[method];
-    ef.sandbox.prototype[facade] = ef.extensions[method.split('.')[0]][method.split('.')[1]];
+  for (facade in methods) {
+    ef.sandbox.prototype[facade] = ef.extensions[methods[facade].split('/')[0]][methods[facade].split('.')[1]];
   }
 
   ef.sandbox.prototype.engage = function(action) {

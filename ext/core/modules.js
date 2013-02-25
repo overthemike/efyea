@@ -28,6 +28,7 @@
       var module = modules[moduleName];
 
       module.sandbox.engage('destroy');
+      module = null;
 
       return ext; // chainable
     };
