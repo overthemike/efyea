@@ -30,7 +30,7 @@
   ef.sandbox.prototype.engage = function(action) {
     var callback = this.actions[action];
     if (callback && typeof callback === 'function') {
-      callback();
+      callback.call(this);
     }
   };
 
