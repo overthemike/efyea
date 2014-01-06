@@ -32,8 +32,9 @@
 
           if (cache[topic]) {
             thisTopic = cache[topic];
+            i = thisTopic.length;
             
-            for (i = thisTopic.length - 1; i >= 0; i -= 1) {
+            while (i--) {
               thisTopic[i].apply(scope, args);
             }
           }
@@ -101,10 +102,10 @@
      */
     ext.unsubscribe = function (handle) {
       var t = handle[0],
-        i = cache[t].length - 1;
+        i = cache[t].length;
 
       if (cache[t]) {
-        for (i; i >= 0; i -= 1) {
+        while (i--) {
           if (cache[t][i] === handle[1]) {
             cache[t].splice(cache[t][i], 1);
           }

@@ -2,10 +2,10 @@
   'use strict';
   
   var core = (function (conf) {
-    var publ = {extensions: {}},
-      priv = {
-        conf: conf || {}
-      };
+    var publ = {
+      extensions: {},
+      conf: {}
+    };
 
     publ.extend = function (name, callback) {
       var method,
@@ -24,6 +24,12 @@
       
       return publ;
     };
+
+    publ.config = function (conf) {
+      for (configuration in conf) {
+        publ.conf[conf] = configuration;
+      }
+    }
 
     return publ;
   }());

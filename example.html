@@ -4,21 +4,35 @@
     <title>efyea.js example</title>
   </head>
   <body>
-    <script src="lib/jquery-1.9.1.min.js"></script>
-    <script src="lib/mustache.js"></script>
-    <script src="efyea.js"></script>
-    <script src="ext/core/modules.js"></script>
-    <script src="ext/core/pubsub.js"></script>
-    <script src="ext/mustache/templates.js"></script>
-    <script src="sandbox/sandbox.js"></script>
+    <script src="js/app/lib/jquery-1.9.1.min.js"></script>
+    <script src="js/app/lib/mustache.js"></script>
+    <script src="js/app/efyea.js"></script>
+    <script src="js/app/ext/core/modules.js"></script>
+    <script src="js/app/ext/core/pubsub.js"></script>
+    <script src="js/app/ext/mustache/templates.js"></script>
+    <script src="js/app/sandbox/sandbox.js"></script>
     <script>
       (function(core){
+        core.config({
+          'test':'test'
+        });
         core.register("module1", function(sandbox) {
+          /*
           sandbox.waitforit('init', function () {
             console.log("module1 init");
           });
+
+*/
+          sandbox.init(function(){
+            console.log("module1 short init");
+          });
+/*
           sandbox.waitforit('destroy', function(){
             console.log("module1 destroy");
+          });
+*/
+          sandbox.destroy(function(){
+            console.log("module1 short destroy");
           });
         }).register("module2", function(sandbox) {
           sandbox.waitforit('init', function () {
