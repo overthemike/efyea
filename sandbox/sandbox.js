@@ -14,6 +14,11 @@
  */
 (function(ef){
   var facade,
+    /**
+     * The API mapping for your modules. Use the name of the extension and
+     * the method to map to a unique method name to be used by the modules'
+     * sandboxes.
+     **/
     methods = {
       'publish'       : 'core/publish',
       'subscribe'     : 'core/subscribe',
